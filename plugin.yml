@@ -1,0 +1,15 @@
+name: Fireworks
+main: net.omniscimus.fireworks.Fireworks
+version: 1.2.0
+description: This plugin enables shows of fireworks.
+author: Omniscimus
+commands:
+   fireworks:
+      description: This is the main command for the fireworks plugin.
+      usage: /fireworks <on|off>
+      permission: fireworks.admin
+      permission-message: You do not have permission to execute this command.
+      aliases: fw
+permissions:
+   fireworks.admin:
+      default: op
