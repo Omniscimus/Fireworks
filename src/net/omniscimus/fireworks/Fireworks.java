@@ -62,7 +62,7 @@ public final class Fireworks extends JavaPlugin {
 			}
 			else if(args[0].equalsIgnoreCase("stopall")) {
 				stopAllShows();
-				sender.sendMessage(ChatColor.GOLD + "All fireworks shows have stopped.");
+				sender.sendMessage(ChatColor.GOLD + "All " + numberOfShows() + " fireworks shows have stopped.");
 			}
 			else {
 				sender.sendMessage(ChatColor.GOLD + "Wrong command syntax. Try /fw help");
