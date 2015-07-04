@@ -27,18 +27,6 @@
             <target>1.6</target>
           </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>2.5</version>
-          <configuration>
-            <archive>
-              <manifestEntries>
-                <Built-By>Omniscimus</Built-By>
-              </manifestEntries>
-            </archive>
-          </configuration>
-        </plugin>
     </plugins>
   </build>
 
