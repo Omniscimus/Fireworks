@@ -1,1 +1,4 @@
 delay: 20
+
+# Don't change the config-version!
+config-version: 2

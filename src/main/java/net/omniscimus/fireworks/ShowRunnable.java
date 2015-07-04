@@ -10,9 +10,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-public class Show implements Runnable {
+public class ShowRunnable implements Runnable {
 	
-	public Show(Location loc) {
+	public ShowRunnable(Location loc) {
 		this.location = loc;
 	}
 	
