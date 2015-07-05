@@ -22,9 +22,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Fireworks extends JavaPlugin {
 	
 	private static FileConfiguration config;
+	// Don't use runningShowsConfig or savedShowsConfig, use getRunningShowsConfig() instead.
 	private static File runningShowsFile;
-	// Don't use runningShowsConfig, use getRunningShowsConfig() instead.
 	private static FileConfiguration runningShowsConfig;
+	private static File savedShowsFile;
+	private static FileConfiguration savedShowsConfig;
 	
 	private static int delay;
 	protected ArrayList<Location> runningShowsLocations;
@@ -42,7 +44,7 @@ public final class Fireworks extends JavaPlugin {
 		delay = config.getInt("delay");
 		// get runningshows.yml values
 		try {
-			runningShowsLocations = (ArrayList<Location>) getRunningShowsConfig().getList("saved-shows");
+			runningShowsLocations = (ArrayList<Location>) getCustomConfig(FireworksConfig.RUNNINGSHOWS).getList("saved-shows");
 		} catch (UnsupportedEncodingException e) {
 			getLogger().severe("Couldn't get saved shows from runningshows.yml!");
 			e.printStackTrace();
@@ -69,35 +71,52 @@ public final class Fireworks extends JavaPlugin {
 	}
 	
 	protected void saveRunningShowsLocations() throws UnsupportedEncodingException {
-		getRunningShowsConfig().set("saved-shows", runningShowsLocations);
-		saveConfig();
+		getCustomConfig(FireworksConfig.RUNNINGSHOWS).set("saved-shows", runningShowsLocations);
+		saveCustomConfig();
 	}
 	
-    public void reloadRunningShowsFile() throws UnsupportedEncodingException {
-        if (runningShowsFile == null) {
-        runningShowsFile = new File(getDataFolder(), "runningshows.yml");
-        }
-        runningShowsConfig = YamlConfiguration.loadConfiguration(runningShowsFile);
-     
-        // Look for defaults in the jar
-        Reader defConfigStream = new InputStreamReader(getResource("runningshows.yml"), "UTF8");
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            runningShowsConfig.setDefaults(defConfig);
-        }
+    public void reloadCustomConfigFile(FireworksConfig whichConfig) throws UnsupportedEncodingException {
+    	File configFile;
+    	if(whichConfig == FireworksConfig.RUNNINGSHOWS) {
+    		configFile = runningShowsFile;
+    		if(configFile == null) runningShowsFile = new File(getDataFolder(), "runningshows.yml");
+    		runningShowsConfig = YamlConfiguration.loadConfiguration(runningShowsFile);
+    		
+    		Reader defConfigStream = new InputStreamReader(getResource("runningshows.yml"), "UTF8");
+            if (defConfigStream != null) {
+                YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+                runningShowsConfig.setDefaults(defConfig);
+            }
+    	}
+    	else if(whichConfig == FireworksConfig.SAVEDSHOWS) {
+    		configFile = savedShowsFile;
+    		if(configFile == null) runningShowsFile = new File(getDataFolder(), "savedshows.yml");
+    		savedShowsConfig = YamlConfiguration.loadConfiguration(savedShowsFile);
+    		
+    		Reader defConfigStream = new InputStreamReader(getResource("savedshows.yml"), "UTF8");
+            if (defConfigStream != null) {
+                YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+                savedShowsConfig.setDefaults(defConfig);
+            }
+    	}
     }
-    public FileConfiguration getRunningShowsConfig() throws UnsupportedEncodingException {
-        if (runningShowsConfig == null) {
-            reloadRunningShowsFile();
+    public FileConfiguration getCustomConfig(FireworksConfig whichConfig) throws UnsupportedEncodingException {
+        if(whichConfig == FireworksConfig.RUNNINGSHOWS) {
+        	if (runningShowsConfig == null) {
+    			reloadCustomConfigFile(whichConfig);
+        	}
+        	return runningShowsConfig;
+        } else if(whichConfig == FireworksConfig.SAVEDSHOWS) {
+        	if (savedShowsConfig == null) {
+    			reloadCustomConfigFile(whichConfig);
+        	}
+        	return savedShowsConfig;
         }
-        return runningShowsConfig;
+        else return null;
     }
-    public void saveRunningShows() {
-        if (runningShowsConfig == null || runningShowsFile == null) {
-            return;
-        }
+    public void saveCustomConfig() {
         try {
-            getRunningShowsConfig().save(runningShowsFile);
+            getCustomConfig(FireworksConfig.RUNNINGSHOWS).save(runningShowsFile);
         } catch (IOException ex) {
             getLogger().log(Level.SEVERE, "Could not save running shows to " + runningShowsFile, ex);
         }

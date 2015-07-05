@@ -68,6 +68,12 @@ public class FireworksCommandExecutor implements CommandExecutor {
 				sender.sendMessage(ChatColor.GOLD + "Wrong command syntax. Try /fw help");
 			}
 		}
+		else if(args.length == 2) {
+			if(args[0].equalsIgnoreCase("save")) {
+				showHandler.saveShows(args[1]);
+				sender.sendMessage(ChatColor.GOLD + "The current shows have been saved as: " + ChatColor.RED + args[1]);
+			}
+		}
 		else {
 			sender.sendMessage(ChatColor.GOLD + "Wrong number of arguments. Try /fw help");
 		}
