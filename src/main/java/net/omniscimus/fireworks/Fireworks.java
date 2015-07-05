@@ -70,9 +70,15 @@ public final class Fireworks extends JavaPlugin {
 		showHandler.stopAllShowsNoSave();
 	}
 	
+	// Save running shows on server shutdown
 	protected void saveRunningShowsLocations() throws UnsupportedEncodingException {
 		getCustomConfig(FireworksConfig.RUNNINGSHOWS).set("saved-shows", runningShowsLocations);
-		saveCustomConfig();
+		saveCustomConfig(FireworksConfig.RUNNINGSHOWS);
+	}
+	// Save running shows to savedshows.yml
+	protected void saveRunningShowsLocations(String showName) throws UnsupportedEncodingException {
+		getCustomConfig(FireworksConfig.SAVEDSHOWS).set(showName, runningShowsLocations);
+		saveCustomConfig(FireworksConfig.SAVEDSHOWS);
 	}
 	
     public void reloadCustomConfigFile(FireworksConfig whichConfig) throws UnsupportedEncodingException {
@@ -114,11 +120,12 @@ public final class Fireworks extends JavaPlugin {
         }
         else return null;
     }
-    public void saveCustomConfig() {
+    public void saveCustomConfig(FireworksConfig whichConfig) {
         try {
-            getCustomConfig(FireworksConfig.RUNNINGSHOWS).save(runningShowsFile);
+        	if(whichConfig == FireworksConfig.RUNNINGSHOWS) getCustomConfig(whichConfig).save(runningShowsFile);
+        	else if(whichConfig == FireworksConfig.SAVEDSHOWS) getCustomConfig(whichConfig).save(savedShowsFile);
         } catch (IOException ex) {
-            getLogger().log(Level.SEVERE, "Could not save running shows to " + runningShowsFile, ex);
+            getLogger().log(Level.SEVERE, "Could not save running shows!");
         }
     }
 

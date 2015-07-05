@@ -50,11 +50,5 @@ public final class ShowHandler {
 		plugin.runningShowsLocations.clear();
 		plugin.saveRunningShowsLocations();
 	}
-
-	// Saves the currently running shows to savedshows.yml, so they can be loaded at a later time
-	public void saveShows(String name) {
-		
-		
-	}
 	
 }
