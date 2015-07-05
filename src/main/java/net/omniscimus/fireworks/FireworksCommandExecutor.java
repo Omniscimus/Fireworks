@@ -40,7 +40,9 @@ public class FireworksCommandExecutor implements CommandExecutor {
 				sender.sendMessage(ChatColor.GOLD + "/fw start: " + ChatColor.RED + "starts a fireworks show at your location.");
 				sender.sendMessage(ChatColor.GOLD + "/fw stop: " + ChatColor.RED + "stops the last fireworks show.");
 				sender.sendMessage(ChatColor.GOLD + "/fw stopall: " + ChatColor.RED + "stops all fireworks shows.");
-				//TODO
+				sender.sendMessage(ChatColor.GOLD + "/fw save <name>: " + ChatColor.RED + "saves all current fireworks shows as the preset " + ChatColor.ITALIC + "name.");
+				sender.sendMessage(ChatColor.GOLD + "/fw load: " + ChatColor.RED + "lists all shows you can load.");
+				sender.sendMessage(ChatColor.GOLD + "/fw load <name>: " + ChatColor.RED + "loads the show that was saved as the preset " + ChatColor.ITALIC + "name.");
 			}
 			else if(args[0].equalsIgnoreCase("start")) {
 				try {
