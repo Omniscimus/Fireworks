@@ -1,5 +1,7 @@
 package net.omniscimus.fireworks;
 
+import java.io.UnsupportedEncodingException;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,9 +10,10 @@ import org.bukkit.entity.Player;
 
 public class FireworksCommandExecutor implements CommandExecutor {
 
+	private Fireworks plugin;
 	private ShowHandler showHandler;
 	
-	public FireworksCommandExecutor(ShowHandler showHandler) {
+	public FireworksCommandExecutor(Fireworks plugin, ShowHandler showHandler) {
 		this.showHandler = showHandler;
 	}
 	
@@ -35,16 +38,31 @@ public class FireworksCommandExecutor implements CommandExecutor {
 				sender.sendMessage(ChatColor.GOLD + "/fw stopall: " + ChatColor.RED + "stops all fireworks shows.");
 			}
 			else if(args[0].equalsIgnoreCase("start")) {
-				showHandler.startShow(((Player)sender).getLocation());
+				try {
+					showHandler.startShow(((Player)sender).getLocation());
+				} catch (UnsupportedEncodingException e) {
+					plugin.getLogger().severe("Couldn't save the show to runningshows.yml!");
+					e.printStackTrace();
+				}
 				sender.sendMessage(ChatColor.GOLD + "Fireworks show started!");
 			}
 			else if(args[0].equalsIgnoreCase("stop")) {
-				showHandler.stopLastShow();
+				try {
+					showHandler.stopLastShow();
+				} catch (UnsupportedEncodingException e) {
+					plugin.getLogger().severe("Couldn't save the show to runningshows.yml!");
+					e.printStackTrace();
+				}
 				sender.sendMessage(ChatColor.GOLD + "Fireworks show stopped.");
 			}
 			else if(args[0].equalsIgnoreCase("stopall")) {
 				sender.sendMessage(ChatColor.GOLD + "All " + showHandler.getNumberOfRunningShows() + " fireworks shows have stopped.");
-				showHandler.stopAllShows();
+				try {
+					showHandler.stopAllShows();
+				} catch (UnsupportedEncodingException e) {
+					plugin.getLogger().severe("Couldn't save the show to runningshows.yml!");
+					e.printStackTrace();
+				}
 			}
 			else {
 				sender.sendMessage(ChatColor.GOLD + "Wrong command syntax. Try /fw help");

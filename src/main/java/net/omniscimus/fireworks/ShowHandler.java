@@ -1,5 +1,6 @@
 package net.omniscimus.fireworks;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import org.bukkit.Location;
@@ -25,13 +26,13 @@ public final class ShowHandler {
 	public void startShowNoSave(Location loc) {
 		shows.add(plugin.getServer().getScheduler().runTaskTimer(plugin, new ShowRunnable(loc), 0, delay).getTaskId());
 	}
-	public void startShow(Location loc) {
+	public void startShow(Location loc) throws UnsupportedEncodingException {
 		startShowNoSave(loc);
 		plugin.runningShowsLocations.add(loc);
 		plugin.saveRunningShowsLocations();
 	}
 	
-	public void stopLastShow() {
+	public void stopLastShow() throws UnsupportedEncodingException {
 		plugin.getServer().getScheduler().cancelTask(shows.get(shows.size() - 1));
 		shows.remove(shows.size() - 1);
 		plugin.runningShowsLocations.remove(plugin.runningShowsLocations.size() - 1);
@@ -44,7 +45,7 @@ public final class ShowHandler {
 		shows.clear();
 	}
 	// However, when the player issues the command /fw stopall, they should be erased.
-	public void stopAllShows() {
+	public void stopAllShows() throws UnsupportedEncodingException {
 		stopAllShowsNoSave();
 		plugin.runningShowsLocations.clear();
 		plugin.saveRunningShowsLocations();
