@@ -77,29 +77,6 @@ public class FireworksCommandExecutor implements CommandExecutor {
 				}
 			}
 			else if(args[0].equalsIgnoreCase("load")) {
-				// getKeys(false) : only get the top-level keys, don't go into their children
-				/*
-				Iterator<String> iterator;
-				try {
-					iterator = plugin.getCustomConfig(FireworksConfig.SAVEDSHOWS).getKeys(false).iterator();
-					StringBuilder sb = new StringBuilder(ChatColor.GOLD + "Available saved shows: " + ChatColor.RED);
-					while(iterator.hasNext()) {
-						sb.append(iterator.next());
-						try {
-							if(iterator.next() == null); // If iterator.next() exists, it'll append ", " (doesn't matter what else is in if())
-							sb.append(", ");
-							System.out.println("hoi");
-						} catch(NoSuchElementException e) {
-							System.out.println("test");
-							// If iterator.next() doesn't exist, it won't add a comma
-						}
-					}
-					sender.sendMessage(sb.toString());
-				} catch (UnsupportedEncodingException e) {
-					sender.sendMessage("Couldn't get saved shows from savedshows.yml!");
-					e.printStackTrace();
-				}
-				*/
 				Iterator<String> iterator = plugin.getSavedShowsNames().iterator();
 				StringBuilder sb = new StringBuilder(ChatColor.GOLD + "Available saved shows: " + ChatColor.RED);
 				while(iterator.hasNext()) {
