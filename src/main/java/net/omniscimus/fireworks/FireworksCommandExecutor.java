@@ -17,10 +17,10 @@ public class FireworksCommandExecutor implements CommandExecutor {
 	private ShowHandler showHandler;
 	
 	public FireworksCommandExecutor(Fireworks plugin, ShowHandler showHandler) {
+		this.plugin = plugin;
 		this.showHandler = showHandler;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean onCommand(final CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
@@ -43,6 +43,7 @@ public class FireworksCommandExecutor implements CommandExecutor {
 				sender.sendMessage(ChatColor.GOLD + "/fw save <name>: " + ChatColor.RED + "saves all current fireworks shows as the preset " + ChatColor.ITALIC + "name.");
 				sender.sendMessage(ChatColor.GOLD + "/fw load: " + ChatColor.RED + "lists all shows you can load.");
 				sender.sendMessage(ChatColor.GOLD + "/fw load <name>: " + ChatColor.RED + "loads the show that was saved as the preset " + ChatColor.ITALIC + "name.");
+				sender.sendMessage(ChatColor.GOLD + "/fw remove <name>: " + ChatColor.RED + "deletes the show that was saved as the preset " + ChatColor.ITALIC + "name.");
 			}
 			else if(args[0].equalsIgnoreCase("start")) {
 				try {
@@ -54,13 +55,17 @@ public class FireworksCommandExecutor implements CommandExecutor {
 				sender.sendMessage(ChatColor.GOLD + "Fireworks show started!");
 			}
 			else if(args[0].equalsIgnoreCase("stop")) {
-				try {
-					showHandler.stopLastShow();
-				} catch (UnsupportedEncodingException e) {
-					plugin.getLogger().severe("Couldn't save the show to runningshows.yml!");
-					e.printStackTrace();
+				if(showHandler.getNumberOfRunningShows() == 0) {
+					sender.sendMessage(ChatColor.GOLD + "No shows are currently running!");
+				} else {
+					try {
+						showHandler.stopLastShow();
+					} catch (UnsupportedEncodingException e) {
+						plugin.getLogger().severe("Couldn't save the show to runningshows.yml!");
+						e.printStackTrace();
+					}
+					sender.sendMessage(ChatColor.GOLD + "Fireworks show stopped.");
 				}
-				sender.sendMessage(ChatColor.GOLD + "Fireworks show stopped.");
 			}
 			else if(args[0].equalsIgnoreCase("stopall")) {
 				sender.sendMessage(ChatColor.GOLD + "All " + showHandler.getNumberOfRunningShows() + " fireworks shows have stopped.");
@@ -73,19 +78,34 @@ public class FireworksCommandExecutor implements CommandExecutor {
 			}
 			else if(args[0].equalsIgnoreCase("load")) {
 				// getKeys(false) : only get the top-level keys, don't go into their children
+				/*
 				Iterator<String> iterator;
 				try {
 					iterator = plugin.getCustomConfig(FireworksConfig.SAVEDSHOWS).getKeys(false).iterator();
-					StringBuilder sb = new StringBuilder("Available saved shows: ");
+					StringBuilder sb = new StringBuilder(ChatColor.GOLD + "Available saved shows: " + ChatColor.RED);
 					while(iterator.hasNext()) {
 						sb.append(iterator.next());
-						if(iterator.next() != null) sb.append(", ");
+						try {
+							if(iterator.next() == null); // If iterator.next() exists, it'll append ", " (doesn't matter what else is in if())
+							sb.append(", ");
+							System.out.println("hoi");
+						} catch(NoSuchElementException e) {
+							System.out.println("test");
+							// If iterator.next() doesn't exist, it won't add a comma
+						}
 					}
 					sender.sendMessage(sb.toString());
 				} catch (UnsupportedEncodingException e) {
 					sender.sendMessage("Couldn't get saved shows from savedshows.yml!");
 					e.printStackTrace();
 				}
+				*/
+				Iterator<String> iterator = plugin.getSavedShowsNames().iterator();
+				StringBuilder sb = new StringBuilder(ChatColor.GOLD + "Available saved shows: " + ChatColor.RED);
+				while(iterator.hasNext()) {
+					sb.append(iterator.next()).append(" ");
+				}
+				sender.sendMessage(sb.toString());
 			}
 			else {
 				sender.sendMessage(ChatColor.GOLD + "Wrong command syntax. Try /fw help");
@@ -93,26 +113,38 @@ public class FireworksCommandExecutor implements CommandExecutor {
 		}
 		else if(args.length == 2) {
 			if(args[0].equalsIgnoreCase("save")) {
-				try {
-					plugin.saveRunningShowsLocations(args[1]);
-					sender.sendMessage(ChatColor.GOLD + "The current shows have been saved as: " + ChatColor.RED + args[1]);
-				} catch (UnsupportedEncodingException e) {
-					sender.sendMessage("Couldn't save shows to savedshows.yml!");
-					e.printStackTrace();
+				if(showHandler.getNumberOfRunningShows() == 0) {
+					sender.sendMessage(ChatColor.GOLD + "No shows are currently running!");
+				}
+				else {
+					try {
+						plugin.saveRunningShowLocations(args[1]);
+						sender.sendMessage(ChatColor.GOLD + "The current shows have been saved as: " + ChatColor.RED + args[1]);
+					} catch (UnsupportedEncodingException e) {
+						sender.sendMessage("Couldn't save shows to savedshows.yml!");
+						e.printStackTrace();
+					}
 				}
 			}
 			else if(args[0].equalsIgnoreCase("load")) {
-				ArrayList<Location> showsWeShouldLoad = null;
-				try {
-					showsWeShouldLoad = (ArrayList<Location>) plugin.getCustomConfig(FireworksConfig.SAVEDSHOWS).getList(args[1]);
-					for(Location loc : showsWeShouldLoad) {
-						showHandler.startShow(loc);
+				ArrayList<Location> showWeShouldLoad = plugin.savedShowsLocations.get(args[1]);
+				if(showWeShouldLoad == null) sender.sendMessage(ChatColor.GOLD + "Couldn't find that show.");
+				else {
+					try {
+						for(Location loc : showWeShouldLoad) {
+							showHandler.startShow(loc);
+						}
+						sender.sendMessage(ChatColor.GOLD + "Show loaded successfully.");
+					} catch (UnsupportedEncodingException e) {
+						sender.sendMessage("Couldn't load shows from savedshows.yml!");
+						e.printStackTrace();
 					}
-				} catch (UnsupportedEncodingException e) {
-					sender.sendMessage("Couldn't get saved shows from savedshows.yml!");
-					e.printStackTrace();
 				}
-				if(showsWeShouldLoad == null) sender.sendMessage(ChatColor.GOLD + "Couldn't find that show.");
+			}
+			else if(args[0].equalsIgnoreCase("remove")) {
+				// .remove() removes the thing here, and returns null if it didn't exist
+				if(plugin.savedShowsLocations.remove(args[1]) == null) sender.sendMessage(ChatColor.GOLD + "That show doesn't exist!");
+				else sender.sendMessage(ChatColor.GOLD + "Show " + ChatColor.ITALIC + ChatColor.RED + args[1] + ChatColor.RESET + ChatColor.GOLD + " successfully removed.");
 			}
 		}
 		else {
