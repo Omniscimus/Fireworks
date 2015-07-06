@@ -27,13 +27,18 @@ public class ShowRunnable implements Runnable {
 	@Override
 	public void run() {
 
-		Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
+		shootFirework(location);
+
+	}
+	
+	// It's this way so that single pieces of fw can be spawned without the need to instantiate ShowRunnable.
+	protected static void shootFirework(Location loc) {
+		Firework firework = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK);
 		FireworkMeta fireworkMeta = firework.getFireworkMeta();
 		
 		fireworkMeta.addEffect(FireworkEffect.builder().flicker(random.nextBoolean()).withColor(colors[random.nextInt(14)]).withFade(colors[random.nextInt(14)]).with(types[random.nextInt(3)]).trail(random.nextBoolean()).build());
 		fireworkMeta.setPower(random.nextInt(2) + 1);
 		firework.setFireworkMeta(fireworkMeta);
-
 	}
 	
 }

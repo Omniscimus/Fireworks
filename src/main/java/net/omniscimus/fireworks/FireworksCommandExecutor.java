@@ -15,12 +15,12 @@ public class FireworksCommandExecutor implements CommandExecutor {
 
 	private Fireworks plugin;
 	private ShowHandler showHandler;
-	
+
 	public FireworksCommandExecutor(Fireworks plugin, ShowHandler showHandler) {
 		this.plugin = plugin;
 		this.showHandler = showHandler;
 	}
-	
+
 	@Override
 	public boolean onCommand(final CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
@@ -28,6 +28,19 @@ public class FireworksCommandExecutor implements CommandExecutor {
 		if(!(sender instanceof Player)) {
 			sender.sendMessage(ChatColor.GOLD + "This command can only be executed by a player.");
 			return true;
+		}
+		if(args.length >= 2) {
+			if(args[0].equalsIgnoreCase("shoot")) {
+				// /fw shoot <player>
+				Player target = plugin.getServer().getPlayer(args[1]);
+				if(target == null) sender.sendMessage(ChatColor.GOLD + "That player isn't online!");
+				else {
+					if(args.length < 2) sender.sendMessage(ChatColor.GOLD + "Wrong command syntax. Try /fw help");
+					else {
+						ShowRunnable.shootFirework(target.getLocation());
+					}
+				}
+			}
 		}
 		// fw
 		if(args.length == 0) {
@@ -44,6 +57,7 @@ public class FireworksCommandExecutor implements CommandExecutor {
 				sender.sendMessage(ChatColor.GOLD + "/fw load: " + ChatColor.RED + "lists all shows you can load.");
 				sender.sendMessage(ChatColor.GOLD + "/fw load <name>: " + ChatColor.RED + "loads the show that was saved as the preset " + ChatColor.ITALIC + "name.");
 				sender.sendMessage(ChatColor.GOLD + "/fw remove <name>: " + ChatColor.RED + "deletes the show that was saved as the preset " + ChatColor.ITALIC + "name.");
+				sender.sendMessage(ChatColor.GOLD + "/fw shoot <player>: " + ChatColor.RED + "shoots a piece fireworks at the specified player's location.");
 			}
 			else if(args[0].equalsIgnoreCase("start")) {
 				try {
@@ -127,7 +141,7 @@ public class FireworksCommandExecutor implements CommandExecutor {
 		else {
 			sender.sendMessage(ChatColor.GOLD + "Wrong number of arguments. Try /fw help");
 		}
-		
+
 		return true;
 	}
 
