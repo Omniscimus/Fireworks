@@ -25,7 +25,7 @@ public class FireworksCommandExecutor implements CommandExecutor {
 	public boolean onCommand(final CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
 		// Return if the command is executed by the console.
-		if(!(sender instanceof Player)) {
+		if(!(sender instanceof Player) && args.length > 0 && !args[0].equalsIgnoreCase("shoot")) {
 			sender.sendMessage(ChatColor.GOLD + "This command can only be executed by a player.");
 			return true;
 		}
