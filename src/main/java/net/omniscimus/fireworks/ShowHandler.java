@@ -28,14 +28,14 @@ public final class ShowHandler {
 	}
 	public void startShow(Location loc) throws UnsupportedEncodingException {
 		startShowNoSave(loc);
-		plugin.runningShowsLocations.add(loc);
+		if(plugin.runningShowsLocations != null) plugin.runningShowsLocations.add(loc);
 		plugin.saveRunningShowsLocations();
 	}
 	
 	public void stopLastShow() throws UnsupportedEncodingException {
 		plugin.getServer().getScheduler().cancelTask(runningShows.get(runningShows.size() - 1));
 		runningShows.remove(runningShows.size() - 1);
-		plugin.runningShowsLocations.remove(plugin.runningShowsLocations.size() - 1);
+		if(plugin.runningShowsLocations != null) plugin.runningShowsLocations.remove(plugin.runningShowsLocations.size() - 1);
 		plugin.saveRunningShowsLocations();
 	}
 	
@@ -47,7 +47,7 @@ public final class ShowHandler {
 	// However, when the player issues the command /fw stopall, they should be erased.
 	public void stopAllShows() throws UnsupportedEncodingException {
 		stopAllShowsNoSave();
-		plugin.runningShowsLocations.clear();
+		if(plugin.runningShowsLocations != null) plugin.runningShowsLocations.clear();
 		plugin.saveRunningShowsLocations();
 	}
 	

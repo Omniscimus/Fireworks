@@ -35,10 +35,7 @@ public class FireworksCommandExecutor implements CommandExecutor {
 				Player target = plugin.getServer().getPlayer(args[1]);
 				if(target == null) sender.sendMessage(ChatColor.GOLD + "That player isn't online!");
 				else {
-					if(args.length < 2) sender.sendMessage(ChatColor.GOLD + "Wrong command syntax. Try /fw help");
-					else {
-						ShowRunnable.shootFirework(target.getLocation());
-					}
+					ShowRunnable.shootFirework(target.getLocation());
 				}
 			}
 		}

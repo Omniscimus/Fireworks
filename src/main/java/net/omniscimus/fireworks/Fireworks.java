@@ -24,21 +24,21 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public final class Fireworks extends JavaPlugin {
 	
-	private static FileConfiguration config;
+	private FileConfiguration config;
 
 	// Don't use runningShowsConfig or savedShowsConfig, use getRunningShowsConfig() instead.
 	private static File runningShowsFile;
-	private static FileConfiguration runningShowsConfig;
+	private FileConfiguration runningShowsConfig;
 	private static File savedShowsFile;
-	private static FileConfiguration savedShowsConfig;
+	private FileConfiguration savedShowsConfig;
 	
-	private static int delay;
-	protected ArrayList<Location> runningShowsLocations;
+	private int delay;
+	ArrayList<Location> runningShowsLocations;
 	
-	protected Map<String, ArrayList<Location>> savedShowsLocations;
+	Map<String, ArrayList<Location>> savedShowsLocations;
 	
-	private static ShowHandler showHandler;
-	private static FireworksCommandExecutor commandExecutor;
+	private ShowHandler showHandler;
+	private FireworksCommandExecutor commandExecutor;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -60,7 +60,6 @@ public final class Fireworks extends JavaPlugin {
 		}
 		
 		try {
-			// TODO nullpointer here...
 			savedShowsLocations = (Map<String, ArrayList<Location>>) (Object) getCustomConfig(FireworksConfig.SAVEDSHOWS).getConfigurationSection("saved-shows").getValues(false);
 		} catch (UnsupportedEncodingException e) {
 			getLogger().severe("Couldn't get saved shows from savedshows.yml!");
@@ -86,7 +85,7 @@ public final class Fireworks extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		showHandler.stopAllShowsNoSave();
+		if(showHandler != null) showHandler.stopAllShowsNoSave();
 		try {
 			getCustomConfig(FireworksConfig.SAVEDSHOWS).set("saved-shows", savedShowsLocations);
 		} catch (UnsupportedEncodingException e) {
@@ -105,10 +104,11 @@ public final class Fireworks extends JavaPlugin {
 	protected void saveRunningShowLocations(String showName) throws UnsupportedEncodingException {
 		ArrayList<Location> show = new ArrayList<Location>();
 		show.addAll(runningShowsLocations);
-		savedShowsLocations.put(showName, show);
+		if(savedShowsLocations != null) savedShowsLocations.put(showName, show);
 	}
 	protected Set<String> getSavedShowsNames() {
-		return savedShowsLocations.keySet();
+		if(savedShowsLocations != null) return savedShowsLocations.keySet();
+		return null;
 	}
 	
     public void reloadCustomConfigFile(FireworksConfig whichConfig) throws UnsupportedEncodingException {
@@ -119,10 +119,8 @@ public final class Fireworks extends JavaPlugin {
     		runningShowsConfig = YamlConfiguration.loadConfiguration(runningShowsFile);
     		
     		Reader defConfigStream = new InputStreamReader(getResource("runningshows.yml"), "UTF8");
-            if (defConfigStream != null) {
-                YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-                runningShowsConfig.setDefaults(defConfig);
-            }
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            runningShowsConfig.setDefaults(defConfig);
     	}
     	else if(whichConfig == FireworksConfig.SAVEDSHOWS) {
     		configFile = savedShowsFile;
@@ -130,10 +128,8 @@ public final class Fireworks extends JavaPlugin {
     		savedShowsConfig = YamlConfiguration.loadConfiguration(savedShowsFile);
     		
     		Reader defConfigStream = new InputStreamReader(getResource("savedshows.yml"), "UTF8");
-            if (defConfigStream != null) {
-                YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-                savedShowsConfig.setDefaults(defConfig);
-            }
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            savedShowsConfig.setDefaults(defConfig);
     	}
     }
     public FileConfiguration getCustomConfig(FireworksConfig whichConfig) throws UnsupportedEncodingException {
