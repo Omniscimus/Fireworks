@@ -35,7 +35,7 @@ public final class Fireworks extends JavaPlugin {
 	private int delay;
 	ArrayList<Location> runningShowsLocations;
 	
-	Map<String, ArrayList<Location>> savedShowsLocations;
+	public Map<String, ArrayList<Location>> savedShowsLocations;
 	
 	private ShowHandler showHandler;
 	private FireworksCommandExecutor commandExecutor;
@@ -101,7 +101,7 @@ public final class Fireworks extends JavaPlugin {
 		saveCustomConfig(FireworksConfig.RUNNINGSHOWS);
 	}
 	// Save running shows to savedshows.yml
-	protected void saveRunningShowLocations(String showName) throws UnsupportedEncodingException {
+	public void saveRunningShowLocations(String showName) throws UnsupportedEncodingException {
 		ArrayList<Location> show = new ArrayList<Location>();
 		show.addAll(runningShowsLocations);
 		if(savedShowsLocations != null) savedShowsLocations.put(showName, show);
