@@ -82,6 +82,13 @@ public class FireworksCommandExecutor implements CommandExecutor {
 		return true;
 	}
 
+	/**
+	 * Runs the code belonging to a plugin command.
+	 * @param command the command that should be executed
+	 * @param sender the player or thing that sent this command
+	 * @param originalArgs the arguments the original command had
+	 * @throws WrongSyntaxException if originalArgs contains a syntax error
+	 */
 	private void runCommand(FireworksCommand command, CommandSender sender, String[] originalArgs) throws WrongSyntaxException {
 		String[] subcommandArgs;
 		if(originalArgs == null) subcommandArgs = new String[0];

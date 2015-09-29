@@ -10,6 +10,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+/**
+ * Represents the core of a Fireworks show.
+ * @author Omniscimus
+ */
 public class ShowRunnable implements Runnable {
 	
 	public ShowRunnable(Location loc) {
@@ -23,15 +27,18 @@ public class ShowRunnable implements Runnable {
 	// Location of one show instance
 	private Location location;
 	
-	// Spawn one very random piece of fireworks. This'll be done in a scheduleSyncRepeatingTask.
+	/**
+	 * Spawn one very random piece of fireworks. This will be done in a scheduleSyncRepeatingTask.
+	 */
 	@Override
 	public void run() {
-
 		shootFirework(location);
-
 	}
 	
-	// It's this way so that single pieces of fw can be spawned without the need to instantiate ShowRunnable.
+	/**
+	 * Shoot a piece of random fireworks. This method can also be called without scheduling a task.
+	 * @param loc where the fireworks should spawn
+	 */
 	public static void shootFirework(Location loc) {
 		Firework firework = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK);
 		FireworkMeta fireworkMeta = firework.getFireworkMeta();
