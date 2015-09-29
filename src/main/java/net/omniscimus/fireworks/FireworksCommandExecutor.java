@@ -28,10 +28,12 @@ public class FireworksCommandExecutor implements CommandExecutor {
 
 	private Fireworks plugin;
 	private ShowHandler showHandler;
+	private ConfigHandler configHandler;
 
-	public FireworksCommandExecutor(Fireworks plugin, ShowHandler showHandler) {
+	public FireworksCommandExecutor(Fireworks plugin, ShowHandler showHandler, ConfigHandler configHandler) {
 		this.plugin = plugin;
 		this.showHandler = showHandler;
+		this.configHandler = configHandler;
 	}
 
 
@@ -63,13 +65,13 @@ public class FireworksCommandExecutor implements CommandExecutor {
 					runCommand(new StopallCommand(showHandler), sender, args);
 					break;
 				case "save":
-					runCommand(new SaveCommand(plugin, showHandler), sender, args);
+					runCommand(new SaveCommand(showHandler, configHandler), sender, args);
 					break;
 				case "remove":
-					runCommand(new RemoveCommand(plugin), sender, args);
+					runCommand(new RemoveCommand(showHandler), sender, args);
 					break;
 				case "load":
-					runCommand(new LoadCommand(plugin, showHandler), sender, args);
+					runCommand(new LoadCommand(showHandler), sender, args);
 					break;
 
 				}

@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import net.omniscimus.fireworks.Fireworks;
+import net.omniscimus.fireworks.ConfigHandler;
 import net.omniscimus.fireworks.ShowHandler;
 import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberException;
 
@@ -16,12 +16,12 @@ import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberExceptio
  */
 public class SaveCommand extends FireworksCommand {
 
-	private Fireworks plugin;
 	private ShowHandler showHandler;
+	private ConfigHandler configHandler;
 
-	public SaveCommand(Fireworks plugin, ShowHandler showHandler) {
-		this.plugin = plugin;
+	public SaveCommand(ShowHandler showHandler, ConfigHandler configHandler) {
 		this.showHandler = showHandler;
+		this.configHandler = configHandler;
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class SaveCommand extends FireworksCommand {
 				sender.sendMessage(ChatColor.GOLD + "No shows are currently running!");
 			}
 			else {
-				plugin.saveRunningShowLocations(args[0]);
+				configHandler.saveRunningShow(args[0]);
 				sender.sendMessage(ChatColor.GOLD + "The current shows have been saved as: " + ChatColor.RED + args[0]);
 			}
 		}

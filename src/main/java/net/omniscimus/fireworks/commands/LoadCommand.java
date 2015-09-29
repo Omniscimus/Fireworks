@@ -7,7 +7,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
-import net.omniscimus.fireworks.Fireworks;
 import net.omniscimus.fireworks.ShowHandler;
 import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberException;
 
@@ -17,11 +16,9 @@ import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberExceptio
  */
 public class LoadCommand extends FireworksCommand {
 
-	private Fireworks plugin;
 	private ShowHandler showHandler;
 
-	public LoadCommand(Fireworks plugin, ShowHandler showHandler) {
-		this.plugin = plugin;
+	public LoadCommand(ShowHandler showHandler) {
 		this.showHandler = showHandler;
 	}
 
@@ -29,7 +26,7 @@ public class LoadCommand extends FireworksCommand {
 	public void run(CommandSender sender, String[] args) throws WrongArgumentsNumberException, UnsupportedEncodingException {
 
 		if(args.length == 2) {
-			ArrayList<Location> showWeShouldLoad = plugin.savedShowsLocations.get(args[0]);
+			ArrayList<Location> showWeShouldLoad = showHandler.getSavedShows().get(args[0]);
 			if(showWeShouldLoad == null) sender.sendMessage(ChatColor.GOLD + "Couldn't find that show.");
 			else {
 				for(Location loc : showWeShouldLoad) {

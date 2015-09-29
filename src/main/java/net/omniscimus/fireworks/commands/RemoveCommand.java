@@ -3,7 +3,7 @@ package net.omniscimus.fireworks.commands;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import net.omniscimus.fireworks.Fireworks;
+import net.omniscimus.fireworks.ShowHandler;
 import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberException;
 
 /**
@@ -13,10 +13,10 @@ import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberExceptio
  */
 public class RemoveCommand extends FireworksCommand {
 
-	private Fireworks plugin;
+	private ShowHandler showHandler;
 	
-	public RemoveCommand(Fireworks plugin) {
-		this.plugin = plugin;
+	public RemoveCommand(ShowHandler showHandler) {
+		this.showHandler = showHandler;
 	}
 	
 	@Override
@@ -24,7 +24,7 @@ public class RemoveCommand extends FireworksCommand {
 
 		if(args.length == 2) {
 			// .remove() removes the thing here, and returns null if it didn't exist
-			if(plugin.savedShowsLocations.remove(args[0]) == null) sender.sendMessage(ChatColor.GOLD + "That show doesn't exist!");
+			if(showHandler.getSavedShows().remove(args[0]) == null) sender.sendMessage(ChatColor.GOLD + "That show doesn't exist!");
 			else sender.sendMessage(ChatColor.GOLD + "Show " + ChatColor.ITALIC + ChatColor.RED + args[0] + ChatColor.RESET + ChatColor.GOLD + " successfully removed.");
 		}
 		else throw new WrongArgumentsNumberException();
