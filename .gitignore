@@ -19,3 +19,4 @@ local.properties
 .target
 .texlipse
 target/
+*.DS_Store
