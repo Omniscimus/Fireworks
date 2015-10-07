@@ -13,7 +13,7 @@ public class PlayerNotOnlineException extends WrongSyntaxException {
 	private static final String PLAYER = ChatColor.RED + "Player ";
 	private static final String NOT_ONLINE = ChatColor.RED + " is not online!";
 	
-	private String playerName;
+	private final String playerName;
 	
 	public PlayerNotOnlineException(String playerName) {
 		this.playerName = playerName;

@@ -42,10 +42,12 @@ public class ShootCommand extends FireworksCommand {
 	 * @param atPlayerName name of the player at whose location the firework should appear
 	 * @throws PlayerNotOnlineException if the specified player isn't online
 	 */
-	public void shootFireworks(CommandSender sender, String atPlayerName) throws PlayerNotOnlineException {
+	public void shootFireworks(CommandSender sender, String atPlayerName)
+		throws PlayerNotOnlineException {
 		Location atLocation = LocationFactory.createLocation(atPlayerName);
 		ShowRunnable.shootFirework(atLocation);
-		if(sender != null) sender.sendMessage(ChatColor.GOLD + "Shot fireworks at location of player " + atPlayerName);
+		if(sender != null)
+		    sender.sendMessage(ChatColor.GOLD + "Shot fireworks at location of player " + atPlayerName);
 	}
 	
 	/**
@@ -58,7 +60,8 @@ public class ShootCommand extends FireworksCommand {
 	 * @throws SenderIsNotPlayerException if sender isn't a Player (can't get the World from it)
 	 * @throws WrongSyntaxException if one or more of arguments x,y,z isn't a proper number
 	 */
-	public void shootFireworks(CommandSender sender, String x, String y, String z) throws SenderIsNotPlayerException, WrongSyntaxException {
+	public void shootFireworks(CommandSender sender, String x, String y, String z)
+		throws SenderIsNotPlayerException, WrongSyntaxException {
 		try {
 			Location atLocation = LocationFactory.createLocation(sender, x, y, z);
 			ShowRunnable.shootFirework(atLocation);
@@ -79,7 +82,8 @@ public class ShootCommand extends FireworksCommand {
 	 * @throws NonExistentWorldException if the specified world doesn't exist in Bukkit.
 	 * @throws WrongSyntaxException if one or more of arguments x,y,z isn't a proper number
 	 */
-	public void shootFireworks(CommandSender sender, String world, String x, String y, String z) throws NonExistentWorldException, WrongSyntaxException {
+	public void shootFireworks(CommandSender sender, String world, String x, String y, String z) 
+		throws NonExistentWorldException, WrongSyntaxException {
 		try {
 			Location atLocation = LocationFactory.createLocation(world, x, y, z);
 			ShowRunnable.shootFirework(atLocation);

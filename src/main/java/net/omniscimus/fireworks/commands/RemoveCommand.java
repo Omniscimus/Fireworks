@@ -13,7 +13,7 @@ import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberExceptio
  */
 public class RemoveCommand extends FireworksCommand {
 
-	private ShowHandler showHandler;
+	private final ShowHandler showHandler;
 	
 	public RemoveCommand(ShowHandler showHandler) {
 		this.showHandler = showHandler;
@@ -24,8 +24,10 @@ public class RemoveCommand extends FireworksCommand {
 
 		if(args.length == 2) {
 			// .remove() removes the thing here, and returns null if it didn't exist
-			if(showHandler.getSavedShows().remove(args[0]) == null) sender.sendMessage(ChatColor.GOLD + "That show doesn't exist!");
-			else sender.sendMessage(ChatColor.GOLD + "Show " + ChatColor.ITALIC + ChatColor.RED + args[0] + ChatColor.RESET + ChatColor.GOLD + " successfully removed.");
+			if(showHandler.getSavedShows().remove(args[0]) == null)
+			    sender.sendMessage(ChatColor.GOLD + "That show doesn't exist!");
+			else
+			    sender.sendMessage(ChatColor.GOLD + "Show " + ChatColor.ITALIC + ChatColor.RED + args[0] + ChatColor.RESET + ChatColor.GOLD + " successfully removed.");
 		}
 		else throw new WrongArgumentsNumberException();
 

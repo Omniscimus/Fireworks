@@ -16,7 +16,7 @@ import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberExceptio
  */
 public class LoadCommand extends FireworksCommand {
 
-	private ShowHandler showHandler;
+	private final ShowHandler showHandler;
 
 	public LoadCommand(ShowHandler showHandler) {
 		this.showHandler = showHandler;

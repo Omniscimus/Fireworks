@@ -14,6 +14,7 @@ public class PluginInfoCommand extends FireworksCommand {
 			+ "a plugin by Omniscimus\n"
 			+ ChatColor.RED + "Try /fw help for commands.";
 	
+	@Override
 	public void run(CommandSender sender, String[] args) {
 		sender.sendMessage(INFOCOMMAND);
 	}

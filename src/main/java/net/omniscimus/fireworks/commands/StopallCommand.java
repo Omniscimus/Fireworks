@@ -14,7 +14,7 @@ import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberExceptio
  */
 public class StopallCommand extends FireworksCommand {
 
-	private ShowHandler showHandler;
+	private final ShowHandler showHandler;
 	
 	public StopallCommand(ShowHandler showHandler) {
 		this.showHandler = showHandler;

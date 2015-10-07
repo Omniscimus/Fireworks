@@ -26,9 +26,9 @@ import net.omniscimus.fireworks.commands.exceptions.WrongSyntaxException;
  */
 public class FireworksCommandExecutor implements CommandExecutor {
 
-	private Fireworks plugin;
-	private ShowHandler showHandler;
-	private ConfigHandler configHandler;
+	private final Fireworks plugin;
+	private final ShowHandler showHandler;
+	private final ConfigHandler configHandler;
 
 	public FireworksCommandExecutor(Fireworks plugin, ShowHandler showHandler, ConfigHandler configHandler) {
 		this.plugin = plugin;

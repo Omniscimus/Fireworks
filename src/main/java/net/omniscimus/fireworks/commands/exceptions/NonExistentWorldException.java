@@ -13,7 +13,7 @@ public class NonExistentWorldException extends WrongSyntaxException {
 	private static final String WORLD = ChatColor.RED + "World ";
 	private static final String NOT_EXIST = " doesn't exist!";
 	
-	private String worldName;
+	private final String worldName;
 	
 	public NonExistentWorldException(String worldName) {
 		this.worldName = worldName;

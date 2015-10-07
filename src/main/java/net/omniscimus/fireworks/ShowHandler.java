@@ -13,25 +13,25 @@ import org.bukkit.Location;
  */
 public final class ShowHandler {
 
-	private Fireworks plugin;
-	private ConfigHandler configHandler;
+	private final Fireworks plugin;
+	private final ConfigHandler configHandler;
 	
-	private int delay;
+	private final int delay;
 	
-	private List<Integer> runningShows;
-	private List<Location> runningShowsLocations;
+	private final List<Integer> runningShows;
+	private final List<Location> runningShowsLocations;
 	
 	@SuppressWarnings("unchecked")
 	public ShowHandler(Fireworks plugin, ConfigHandler configHandler) {
 		this.plugin = plugin;
 		this.configHandler = configHandler;
 		delay = configHandler.getConfig(FireworksConfigType.CONFIG).getInt("delay");
-		runningShows = new ArrayList<Integer>();
+		runningShows = new ArrayList<>();
 		runningShowsLocations = (List<Location>) configHandler.getConfig(FireworksConfigType.RUNNINGSHOWS).getList("saved-shows");
 		
-		for(Location loc : runningShowsLocations) {
-			startShowNoSave(loc);
-		}
+		runningShowsLocations.stream().forEach((loc) -> {
+		    startShowNoSave(loc);
+		});
 	}
 	
 	/**

@@ -19,7 +19,7 @@ import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberExceptio
  */
 public class StartCommand extends FireworksCommand {
 	
-	private ShowHandler showHandler;
+	private final ShowHandler showHandler;
 	
 	public StartCommand(ShowHandler showHandler) {
 		this.showHandler = showHandler;
@@ -51,7 +51,8 @@ public class StartCommand extends FireworksCommand {
 	 * @throws SenderIsNotPlayerException if sender isn't a player, so the location cannot be found
 	 * @throws UnsupportedEncodingException if the show couldn't be saved to runningshows.yml
 	 */
-	public void startFireworks(CommandSender sender) throws SenderIsNotPlayerException, UnsupportedEncodingException {
+	public void startFireworks(CommandSender sender)
+		throws SenderIsNotPlayerException, UnsupportedEncodingException {
 		Location atLocation = LocationFactory.createLocation(sender);
 		showHandler.startShow(atLocation);
 		sender.sendMessage(ChatColor.GOLD + "Started a fireworks show at your location!");
@@ -65,10 +66,12 @@ public class StartCommand extends FireworksCommand {
 	 * @throws PlayerNotOnlineException if targetPlayer is not currently online
 	 * @throws UnsupportedEncodingException if the show couldn't be saved to runningshows.yml
 	 */
-	public void startFireworks(CommandSender sender, String targetPlayer) throws SenderIsNotPlayerException, PlayerNotOnlineException, UnsupportedEncodingException {
+	public void startFireworks(CommandSender sender, String targetPlayer)
+		throws SenderIsNotPlayerException, PlayerNotOnlineException, UnsupportedEncodingException {
 		Location atLocation = LocationFactory.createLocation(targetPlayer);
 		showHandler.startShow(atLocation);
-		if(sender != null) sender.sendMessage(ChatColor.GOLD + "Started a fireworks show at location of player " + targetPlayer + "!");
+		if(sender != null)
+		    sender.sendMessage(ChatColor.GOLD + "Started a fireworks show at location of player " + targetPlayer + "!");
 	}
 	
 	/**
@@ -80,7 +83,8 @@ public class StartCommand extends FireworksCommand {
 	 * @throws SenderIsNotPlayerException if sender isn't a player, so the World is unknown
 	 * @throws UnsupportedEncodingException if the show couldn't be saved to runningshows.yml
 	 */
-	public void startFireworks(CommandSender sender, String x, String y, String z) throws SenderIsNotPlayerException, UnsupportedEncodingException {
+	public void startFireworks(CommandSender sender, String x, String y, String z)
+		throws SenderIsNotPlayerException, UnsupportedEncodingException {
 		Location atLocation = LocationFactory.createLocation(sender, x, y, z);
 		showHandler.startShow(atLocation);
 		sender.sendMessage(ChatColor.GOLD + "Started a fireworks show at coordinates " + x + ", " + y + ", " + z + "!");
@@ -96,10 +100,12 @@ public class StartCommand extends FireworksCommand {
 	 * @throws NonExistentWorldException if the specified world doesn't exist in Bukkit
 	 * @throws UnsupportedEncodingException if the show couldn't be saved to runningshows.yml
 	 */
-	public void startFireworks(CommandSender sender, String world, String x, String y, String z) throws NonExistentWorldException, UnsupportedEncodingException {
+	public void startFireworks(CommandSender sender, String world, String x, String y, String z)
+		throws NonExistentWorldException, UnsupportedEncodingException {
 		Location atLocation = LocationFactory.createLocation(world, x, y, z);
 		showHandler.startShow(atLocation);
-		if(sender != null) sender.sendMessage(ChatColor.GOLD + "Started a fireworks show at coordinates " + x + ", " + y + ", " + z + " in world " + world + "!");
+		if(sender != null)
+		    sender.sendMessage(ChatColor.GOLD + "Started a fireworks show at coordinates " + x + ", " + y + ", " + z + " in world " + world + "!");
 	}
 
 }

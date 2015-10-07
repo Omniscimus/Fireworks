@@ -16,8 +16,8 @@ import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberExceptio
  */
 public class SaveCommand extends FireworksCommand {
 
-	private ShowHandler showHandler;
-	private ConfigHandler configHandler;
+	private final ShowHandler showHandler;
+	private final ConfigHandler configHandler;
 
 	public SaveCommand(ShowHandler showHandler, ConfigHandler configHandler) {
 		this.showHandler = showHandler;

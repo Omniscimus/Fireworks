@@ -43,7 +43,7 @@ public class ConfigHandler {
 	 * @throws UnsupportedEncodingException if runningshows.yml as an unsupported encoding
 	 */
 	public void saveRunningShow(String showName) throws UnsupportedEncodingException {
-		ArrayList<Location> show = new ArrayList<Location>();
+		ArrayList<Location> show = new ArrayList<>();
 		show.addAll(showHandler.getRunningShowsLocations());
 		
 		Map<String, ArrayList<Location>> savedShows = showHandler.getSavedShows();

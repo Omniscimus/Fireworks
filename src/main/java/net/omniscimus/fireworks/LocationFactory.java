@@ -37,6 +37,8 @@ public class LocationFactory {
 	 * @throws PlayerNotOnlineException if atPlayer isn't online in Bukkit
 	 */
 	public static Location createLocation(String atPlayer) throws PlayerNotOnlineException {
+		@SuppressWarnings("deprecation")
+			// Can suppress because the player should be online.
 		Player targetPlayer = Bukkit.getPlayer(atPlayer);
 		if(targetPlayer != null) {
 			return createLocation(targetPlayer);
