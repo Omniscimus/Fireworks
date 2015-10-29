@@ -7,8 +7,8 @@ import net.omniscimus.fireworks.ShowHandler;
 import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberException;
 
 /**
- * This command removes the specified fireworks show.<br />
- * /fw remove &lt;showName>
+ * This command removes the specified fireworks show.<br>
+ * /fw remove &lt;showName&gt;
  *
  * @author Omniscimus
  */

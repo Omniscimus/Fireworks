@@ -11,7 +11,7 @@ import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberExceptio
 
 /**
  * This command saves all currently running fireworks shows to savedshows.yml.
- * /fw save &lt;showName>
+ * /fw save &lt;showName&gt;
  *
  * @author Omniscimus
  */

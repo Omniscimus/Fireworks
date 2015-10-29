@@ -37,7 +37,7 @@ public class ShootCommand extends FireworksCommand {
     }
 
     /**
-     * /fw shoot &lt;player>
+     * /fw shoot &lt;player&gt;
      *
      * @param sender person or thing that executed this command. Can be null
      * @param atPlayerName name of the player at whose location the firework
@@ -55,7 +55,7 @@ public class ShootCommand extends FireworksCommand {
     }
 
     /**
-     * /fw shoot &lt;x> &lt;y> &lt;z>
+     * /fw shoot &lt;x&gt; &lt;y&gt; &lt;z&gt;
      * Will take the World from the sender parameter.
      *
      * @param sender person or thing that executed this command
@@ -81,7 +81,7 @@ public class ShootCommand extends FireworksCommand {
     }
 
     /**
-     * /fw shoot &lt;world> &lt;x> &lt;y> &lt;z>
+     * /fw shoot &lt;world&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt;
      *
      * @param sender person or thing that executed this command. Can be null
      * @param world world in which the firework should appear

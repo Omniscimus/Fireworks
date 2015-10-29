@@ -65,7 +65,7 @@ public class StartCommand extends FireworksCommand {
     }
 
     /**
-     * /fw start &lt;player>
+     * /fw start &lt;player&gt;
      *
      * @param sender player or thing who should be sent a result message. Can be
      * null
@@ -88,7 +88,7 @@ public class StartCommand extends FireworksCommand {
     }
 
     /**
-     * /fw start &lt;x> &lt;y> &lt;z>
+     * /fw start &lt;x&gt; &lt;y&gt; &lt;z&gt;
      *
      * @param sender player or thing from which to get the World and who should
      * be sent a result message
@@ -108,7 +108,7 @@ public class StartCommand extends FireworksCommand {
     }
 
     /**
-     * /fw start &lt;world> &lt;x> &lt;y> &lt;z>
+     * /fw start &lt;world&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt;
      *
      * @param sender player or thing who should be sent a result message. Can be
      * null
