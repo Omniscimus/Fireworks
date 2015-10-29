@@ -10,7 +10,8 @@ import org.bukkit.command.CommandSender;
 public class WrongSyntaxException extends Exception {
 	private static final long serialVersionUID = -7599350812917155630L;
 	
-	private static final String WRONG_SYNTAX_MESSAGE = ChatColor.RED + "Wrong command syntax. Try /fw help";
+	private static final String WRONG_SYNTAX_MESSAGE
+		= ChatColor.RED + "Wrong command syntax. Try /fw help";
 	
 	/**
 	 * Send a CommandSender the friendly error message belonging to this exception.

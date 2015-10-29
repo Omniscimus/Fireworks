@@ -7,30 +7,34 @@ import net.omniscimus.fireworks.ShowHandler;
 import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberException;
 
 /**
- * This command removes the specified fireworks show.
- * /fw remove <showName>
+ * This command removes the specified fireworks show.<br />
+ * /fw remove &lt;showName>
+ *
  * @author Omniscimus
  */
 public class RemoveCommand extends FireworksCommand {
 
-	private final ShowHandler showHandler;
-	
-	public RemoveCommand(ShowHandler showHandler) {
-		this.showHandler = showHandler;
-	}
-	
-	@Override
-	public void run(CommandSender sender, String[] args) throws WrongArgumentsNumberException {
+    private final ShowHandler showHandler;
 
-		if(args.length == 2) {
-			// .remove() removes the thing here, and returns null if it didn't exist
-			if(showHandler.getSavedShows().remove(args[0]) == null)
-			    sender.sendMessage(ChatColor.GOLD + "That show doesn't exist!");
-			else
-			    sender.sendMessage(ChatColor.GOLD + "Show " + ChatColor.ITALIC + ChatColor.RED + args[0] + ChatColor.RESET + ChatColor.GOLD + " successfully removed.");
-		}
-		else throw new WrongArgumentsNumberException();
+    public RemoveCommand(ShowHandler showHandler) {
+	this.showHandler = showHandler;
+    }
 
+    @Override
+    public void run(CommandSender sender, String[] args)
+	    throws WrongArgumentsNumberException {
+
+	if (args.length == 2) {
+	    // .remove() removes the thing here, and returns null if it didn't exist
+	    if (showHandler.getSavedShows().remove(args[0]) == null) {
+		sender.sendMessage(ChatColor.GOLD + "That show doesn't exist!");
+	    } else {
+		sender.sendMessage(ChatColor.GOLD + "Show " + ChatColor.ITALIC + ChatColor.RED + args[0] + ChatColor.RESET + ChatColor.GOLD + " successfully removed.");
+	    }
+	} else {
+	    throw new WrongArgumentsNumberException();
 	}
+
+    }
 
 }
