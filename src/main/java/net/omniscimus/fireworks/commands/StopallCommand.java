@@ -26,8 +26,9 @@ public class StopallCommand extends FireworksCommand {
 	    throws WrongArgumentsNumberException, UnsupportedEncodingException {
 
 	if (args.length == 0) {
+            int number = showHandler.getNumberOfRunningShows();
 	    showHandler.stopAllShows();
-	    sender.sendMessage(ChatColor.GOLD + "All " + showHandler.getNumberOfRunningShows() + " fireworks shows have stopped.");
+	    sender.sendMessage(ChatColor.GOLD + "All " + number + " fireworks shows have stopped.");
 	} else {
 	    throw new WrongArgumentsNumberException();
 	}
