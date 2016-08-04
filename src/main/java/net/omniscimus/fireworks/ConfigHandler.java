@@ -7,6 +7,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -132,8 +133,7 @@ public class ConfigHandler {
      */
     private void sendExceptionMessage(Exception e) {
 	plugin.getLogger()
-		.severe("Something went wrong while accessing the save file!");
-	e.printStackTrace();
+		.log(Level.WARNING, "Something went wrong while accessing the save file!", e);
     }
 
 }

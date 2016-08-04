@@ -2,6 +2,7 @@ package net.omniscimus.fireworks;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -141,8 +142,7 @@ public class FireworksCommandExecutor implements CommandExecutor {
 	    sender.sendMessage(
 		    ChatColor.RED
 		    + "An error occurred while processing your command.");
-	    plugin.getLogger().severe("Error while accessing save file!");
-	    e.printStackTrace();
+	    plugin.getLogger().log(Level.WARNING, "Error while accessing save file!", e);
 	}
     }
 
