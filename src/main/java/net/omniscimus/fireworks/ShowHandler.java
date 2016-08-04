@@ -31,7 +31,7 @@ public final class ShowHandler {
 	runningShows = new ArrayList<>();
 	runningShowsLocations = (List<Location>) configHandler
 		.getConfig(FireworksConfigType.RUNNINGSHOWS)
-		.getList("saved-shows");
+		.getList("saved-shows", new ArrayList<>());
 
 	runningShowsLocations.stream().forEach((loc) -> {
 	    startShowNoSave(loc);

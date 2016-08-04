@@ -67,13 +67,27 @@ public class ConfigHandler {
      * getCustomConfig(whichConfig);
      *
      * @param whichConfig the config which should be reloaded
+     * @throws IOException If the config file is a directory.
      */
-    public void reloadConfig(FireworksConfigType whichConfig) {
+    public void reloadConfig(FireworksConfigType whichConfig) throws IOException {
 	if (whichConfig != FireworksConfigType.CONFIG) {
 
 	    if (whichConfig.getFile() == null) {
-		whichConfig.setFile(new File(
-			plugin.getDataFolder(), whichConfig.getFileName()));
+                File file = new File(plugin.getDataFolder(), whichConfig.getFileName());
+                if (!file.exists()) {
+                    File parent = file.getParentFile();
+                    if (!parent.isDirectory()) {
+                        if (!parent.mkdirs()) {
+                            throw new IOException("Couldn't create the directory: " + parent);
+                        }
+                    }
+                    file.createNewFile();
+                } else {
+                    if (!file.isFile()) {
+                        throw new IOException("Configuration file is a directory! " + file);
+                    }
+                }
+		whichConfig.setFile(file);
 	    }
 
 	    whichConfig.setFileConfiguration(
@@ -105,7 +119,12 @@ public class ConfigHandler {
     public FileConfiguration getConfig(FireworksConfigType whichConfig) {
 	if (whichConfig != FireworksConfigType.CONFIG) {
 	    if (whichConfig.getFileConfiguration() == null) {
-		reloadConfig(whichConfig);
+                try {
+                    reloadConfig(whichConfig);
+                } catch (IOException ex) {
+                    sendExceptionMessage(ex);
+                    return null;
+                }
 	    }
 	    return whichConfig.getFileConfiguration();
 	} else {
