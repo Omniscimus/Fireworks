@@ -2,6 +2,7 @@ package net.omniscimus.fireworks.commands;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,28 +22,39 @@ public class LoadCommand extends FireworksCommand {
     private final ShowHandler showHandler;
 
     public LoadCommand(ShowHandler showHandler) {
-	this.showHandler = showHandler;
+        this.showHandler = showHandler;
     }
 
     @Override
     public void run(CommandSender sender, String[] args)
-	    throws WrongArgumentsNumberException, UnsupportedEncodingException {
+            throws WrongArgumentsNumberException, UnsupportedEncodingException {
 
-	if (args.length == 2) {
-	    ArrayList<Location> showWeShouldLoad
-		    = showHandler.getSavedShows().get(args[0]);
-	    if (showWeShouldLoad == null) {
-		sender.sendMessage(ChatColor.GOLD + "Couldn't find that show.");
-	    } else {
-		for (Location loc : showWeShouldLoad) {
-		    showHandler.startShow(loc);
-		}
-		sender.sendMessage(
-			ChatColor.GOLD + "Show loaded successfully.");
-	    }
-	} else {
-	    throw new WrongArgumentsNumberException();
-	}
+        if (args.length == 0) {
+            StringBuilder responseBuilder = new StringBuilder(ChatColor.GOLD + "Saved shows: \n");
+            Map<String, ArrayList<Location>> savedShows = showHandler.getSavedShows();
+            if (savedShows.isEmpty()) {
+                responseBuilder.append("None.");
+            } else {
+                showHandler.getSavedShows().keySet().stream().forEach((showName) -> {
+                    responseBuilder.append(ChatColor.RED).append(showName).append(ChatColor.RED).append(", ");
+                });
+            }
+            sender.sendMessage(responseBuilder.toString());
+        } else if (args.length == 1) {
+            ArrayList<Location> showWeShouldLoad
+                    = showHandler.getSavedShows().get(args[0]);
+            if (showWeShouldLoad == null) {
+                sender.sendMessage(ChatColor.GOLD + "Couldn't find that show.");
+            } else {
+                for (Location loc : showWeShouldLoad) {
+                    showHandler.startShow(loc);
+                }
+                sender.sendMessage(
+                        ChatColor.GOLD + "Show loaded successfully.");
+            }
+        } else {
+            throw new WrongArgumentsNumberException();
+        }
 
     }
 

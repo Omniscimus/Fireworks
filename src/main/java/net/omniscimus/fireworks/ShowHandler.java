@@ -2,10 +2,12 @@ package net.omniscimus.fireworks;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 
 /**
  * Manager of all Fireworks shows.
@@ -24,18 +26,18 @@ public final class ShowHandler {
 
     @SuppressWarnings("unchecked")
     public ShowHandler(Fireworks plugin, ConfigHandler configHandler) {
-	this.plugin = plugin;
-	this.configHandler = configHandler;
-	delay = configHandler.getConfig(FireworksConfigType.CONFIG)
-		.getInt("delay");
-	runningShows = new ArrayList<>();
-	runningShowsLocations = (List<Location>) configHandler
-		.getConfig(FireworksConfigType.RUNNINGSHOWS)
-		.getList("saved-shows", new ArrayList<>());
+        this.plugin = plugin;
+        this.configHandler = configHandler;
+        delay = configHandler.getConfig(FireworksConfigType.CONFIG)
+                .getInt("delay");
+        runningShows = new ArrayList<>();
+        runningShowsLocations = (List<Location>) configHandler
+                .getConfig(FireworksConfigType.RUNNINGSHOWS)
+                .getList("saved-shows", new ArrayList<>());
 
-	runningShowsLocations.stream().forEach((loc) -> {
-	    startShowNoSave(loc);
-	});
+        runningShowsLocations.stream().forEach((loc) -> {
+            startShowNoSave(loc);
+        });
     }
 
     /**
@@ -44,7 +46,7 @@ public final class ShowHandler {
      * @return the number of currently running fireworks shows
      */
     public int getNumberOfRunningShows() {
-	return runningShows.size();
+        return runningShows.size();
     }
 
     /**
@@ -53,7 +55,7 @@ public final class ShowHandler {
      * @return the List of Locations of currently running fireworks shows
      */
     public List<Location> getRunningShowsLocations() {
-	return runningShowsLocations;
+        return runningShowsLocations;
     }
 
     /**
@@ -63,10 +65,14 @@ public final class ShowHandler {
      */
     @SuppressWarnings("unchecked")
     public Map<String, ArrayList<Location>> getSavedShows() {
-	Map<String, Object> savedShows
-		= configHandler.getConfig(FireworksConfigType.SAVEDSHOWS)
-		.getConfigurationSection("saved-shows").getValues(false);
-	return (Map<String, ArrayList<Location>>) (Object) savedShows;
+        ConfigurationSection configSection = configHandler.getConfig(FireworksConfigType.SAVEDSHOWS)
+                .getConfigurationSection("saved-shows");
+        if (configSection == null) {
+            return new HashMap<>();
+        } else {
+            Map<String, Object> savedShows = configSection.getValues(false);
+            return (Map<String, ArrayList<Location>>) (Object) savedShows;
+        }
     }
 
     /**
@@ -75,10 +81,10 @@ public final class ShowHandler {
      * @param loc the location of the fireworks show
      */
     public void startShowNoSave(Location loc) {
-	runningShows.add(
-		plugin.getServer().getScheduler()
-		.runTaskTimer(plugin, new ShowRunnable(loc), 0, delay)
-		.getTaskId());
+        runningShows.add(
+                plugin.getServer().getScheduler()
+                .runTaskTimer(plugin, new ShowRunnable(loc), 0, delay)
+                .getTaskId());
 
     }
 
@@ -90,11 +96,11 @@ public final class ShowHandler {
      * runningshows.yml
      */
     public void startShow(Location loc) throws UnsupportedEncodingException {
-	startShowNoSave(loc);
-	if (runningShowsLocations != null) {
-	    runningShowsLocations.add(loc);
-	}
-	configHandler.saveRunningShows();
+        startShowNoSave(loc);
+        if (runningShowsLocations != null) {
+            runningShowsLocations.add(loc);
+        }
+        configHandler.saveRunningShows();
     }
 
     /**
@@ -104,21 +110,21 @@ public final class ShowHandler {
      * runningshows.yml
      */
     public void stopLastShow() throws UnsupportedEncodingException {
-	plugin.getServer().getScheduler().cancelTask(
-		runningShows.get(runningShows.size() - 1));
-	runningShows.remove(runningShows.size() - 1);
-	if (runningShowsLocations != null) {
-	    runningShowsLocations.remove(runningShowsLocations.size() - 1);
-	}
-	configHandler.saveRunningShows();
+        plugin.getServer().getScheduler().cancelTask(
+                runningShows.get(runningShows.size() - 1));
+        runningShows.remove(runningShows.size() - 1);
+        if (runningShowsLocations != null) {
+            runningShowsLocations.remove(runningShowsLocations.size() - 1);
+        }
+        configHandler.saveRunningShows();
     }
 
     /**
      * Stops all currently running firework shows.
      */
     public void stopAllShowsNoSave() {
-	plugin.getServer().getScheduler().cancelTasks(plugin);
-	runningShows.clear();
+        plugin.getServer().getScheduler().cancelTasks(plugin);
+        runningShows.clear();
     }
 
     /**
@@ -129,8 +135,8 @@ public final class ShowHandler {
      * runningshows.yml
      */
     public void stopAllShows() throws UnsupportedEncodingException {
-	stopAllShowsNoSave();
-	configHandler.saveRunningShows();
+        stopAllShowsNoSave();
+        configHandler.saveRunningShows();
     }
 
 }
