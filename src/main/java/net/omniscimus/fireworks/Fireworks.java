@@ -11,24 +11,42 @@ public final class Fireworks extends JavaPlugin {
     private ShowHandler showHandler;
     private FireworksCommandExecutor commandExecutor;
 
+    /**
+     * Gets the currently used instance of ConfigHandler.
+     *
+     * @return a ConfigHandler object
+     */
+    public ConfigHandler getConfigHandler() {
+        return configHandler;
+    }
+
+    /**
+     * Gets the currently used instance of ShowHandler.
+     *
+     * @return a ShowHandler object
+     */
+    public ShowHandler getShowHandler() {
+        return showHandler;
+    }
+
     @Override
     public void onEnable() {
 
-	// Initialize
-	configHandler = new ConfigHandler(this, showHandler);
-	showHandler = new ShowHandler(this, configHandler);
-	commandExecutor = new FireworksCommandExecutor(
-		this, showHandler, configHandler);
-	getCommand("fw").setExecutor(commandExecutor);
-	getCommand("fireworks").setExecutor(commandExecutor);
+        // Initialize
+        configHandler = new ConfigHandler(this);
+        showHandler = new ShowHandler(this, configHandler);
+        commandExecutor = new FireworksCommandExecutor(
+                this, showHandler, configHandler);
+        getCommand("fw").setExecutor(commandExecutor);
+        getCommand("fireworks").setExecutor(commandExecutor);
 
     }
 
     @Override
     public void onDisable() {
-	if (showHandler != null) {
-	    showHandler.stopAllShowsNoSave();
-	}
+        if (showHandler != null) {
+            showHandler.stopAllShowsNoSave();
+        }
     }
 
 }

@@ -24,11 +24,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class ConfigHandler {
 
     private final Fireworks plugin;
-    private final ShowHandler showHandler;
 
-    public ConfigHandler(Fireworks plugin, ShowHandler showHandler) {
-	this.plugin = plugin;
-	this.showHandler = showHandler;
+    public ConfigHandler(Fireworks plugin) {
+        this.plugin = plugin;
     }
 
     /**
@@ -38,9 +36,9 @@ public class ConfigHandler {
      * unsupported encoding
      */
     protected void saveRunningShows() throws UnsupportedEncodingException {
-	getConfig(FireworksConfigType.RUNNINGSHOWS)
-		.set("saved-shows", showHandler.getRunningShowsLocations());
-	saveCustomConfig(FireworksConfigType.RUNNINGSHOWS);
+        getConfig(FireworksConfigType.RUNNINGSHOWS)
+                .set("saved-shows", plugin.getShowHandler().getRunningShowsLocations());
+        saveCustomConfig(FireworksConfigType.RUNNINGSHOWS);
     }
 
     /**
@@ -51,15 +49,16 @@ public class ConfigHandler {
      * unsupported encoding
      */
     public void saveRunningShow(String showName)
-	    throws UnsupportedEncodingException {
-	ArrayList<Location> show = new ArrayList<>();
-	show.addAll(showHandler.getRunningShowsLocations());
+            throws UnsupportedEncodingException {
+        ArrayList<Location> show = new ArrayList<>();
+        ShowHandler showHandler = plugin.getShowHandler();
+        show.addAll(showHandler.getRunningShowsLocations());
 
-	Map<String, ArrayList<Location>> savedShows
-		= showHandler.getSavedShows();
-	savedShows.put(showName, show);
-	getConfig(FireworksConfigType.SAVEDSHOWS)
-		.set("saved-shows", savedShows);
+        Map<String, ArrayList<Location>> savedShows
+                = showHandler.getSavedShows();
+        savedShows.put(showName, show);
+        getConfig(FireworksConfigType.SAVEDSHOWS)
+                .set("saved-shows", savedShows);
     }
 
     /**
@@ -70,9 +69,9 @@ public class ConfigHandler {
      * @throws IOException If the config file is a directory.
      */
     public void reloadConfig(FireworksConfigType whichConfig) throws IOException {
-	if (whichConfig != FireworksConfigType.CONFIG) {
+        if (whichConfig != FireworksConfigType.CONFIG) {
 
-	    if (whichConfig.getFile() == null) {
+            if (whichConfig.getFile() == null) {
                 File file = new File(plugin.getDataFolder(), whichConfig.getFileName());
                 if (!file.exists()) {
                     File parent = file.getParentFile();
@@ -87,26 +86,26 @@ public class ConfigHandler {
                         throw new IOException("Configuration file is a directory! " + file);
                     }
                 }
-		whichConfig.setFile(file);
-	    }
+                whichConfig.setFile(file);
+            }
 
-	    whichConfig.setFileConfiguration(
-		    YamlConfiguration.loadConfiguration(whichConfig.getFile()));
-	    Reader defConfigStream;
-	    try {
-		defConfigStream = new InputStreamReader(
-			plugin.getResource(whichConfig.getFileName()), "UTF8");
-	    } catch (UnsupportedEncodingException e) {
-		sendExceptionMessage(e);
-		return;
-	    }
-	    YamlConfiguration defConfig
-		    = YamlConfiguration.loadConfiguration(defConfigStream);
-	    whichConfig.getFileConfiguration().setDefaults(defConfig);
+            whichConfig.setFileConfiguration(
+                    YamlConfiguration.loadConfiguration(whichConfig.getFile()));
+            Reader defConfigStream;
+            try {
+                defConfigStream = new InputStreamReader(
+                        plugin.getResource(whichConfig.getFileName()), "UTF8");
+            } catch (UnsupportedEncodingException e) {
+                sendExceptionMessage(e);
+                return;
+            }
+            YamlConfiguration defConfig
+                    = YamlConfiguration.loadConfiguration(defConfigStream);
+            whichConfig.getFileConfiguration().setDefaults(defConfig);
 
-	} else {
-	    plugin.reloadConfig();
-	}
+        } else {
+            plugin.reloadConfig();
+        }
     }
 
     /**
@@ -117,19 +116,19 @@ public class ConfigHandler {
      * type
      */
     public FileConfiguration getConfig(FireworksConfigType whichConfig) {
-	if (whichConfig != FireworksConfigType.CONFIG) {
-	    if (whichConfig.getFileConfiguration() == null) {
+        if (whichConfig != FireworksConfigType.CONFIG) {
+            if (whichConfig.getFileConfiguration() == null) {
                 try {
                     reloadConfig(whichConfig);
                 } catch (IOException ex) {
                     sendExceptionMessage(ex);
                     return null;
                 }
-	    }
-	    return whichConfig.getFileConfiguration();
-	} else {
-	    return plugin.getConfig();
-	}
+            }
+            return whichConfig.getFileConfiguration();
+        } else {
+            return plugin.getConfig();
+        }
     }
 
     /**
@@ -138,11 +137,11 @@ public class ConfigHandler {
      * @param whichConfig the config that should be saved
      */
     public void saveCustomConfig(FireworksConfigType whichConfig) {
-	try {
-	    getConfig(whichConfig).save(whichConfig.getFile());
-	} catch (IOException e) {
-	    sendExceptionMessage(e);
-	}
+        try {
+            getConfig(whichConfig).save(whichConfig.getFile());
+        } catch (IOException e) {
+            sendExceptionMessage(e);
+        }
     }
 
     /**
@@ -151,8 +150,8 @@ public class ConfigHandler {
      * @param e Exception that occurred
      */
     private void sendExceptionMessage(Exception e) {
-	plugin.getLogger()
-		.log(Level.WARNING, "Something went wrong while accessing the save file!", e);
+        plugin.getLogger()
+                .log(Level.WARNING, "Something went wrong while accessing the save file!", e);
     }
 
 }
