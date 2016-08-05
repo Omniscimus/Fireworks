@@ -2,9 +2,11 @@ package net.omniscimus.fireworks;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -21,8 +23,10 @@ public final class ShowHandler {
 
     private final int delay;
 
-    private final List<Integer> runningShows;
-    private final List<Location> runningShowsLocations;
+    /**
+     * The shows' task IDs mapped to their locations.
+     */
+    private final ConcurrentSkipListMap<Integer, Location> runningShows;
 
     @SuppressWarnings("unchecked")
     public ShowHandler(Fireworks plugin, ConfigHandler configHandler) {
@@ -30,11 +34,11 @@ public final class ShowHandler {
         this.configHandler = configHandler;
         delay = configHandler.getConfig(FireworksConfigType.CONFIG)
                 .getInt("delay");
-        runningShows = new ArrayList<>();
-        runningShowsLocations = (List<Location>) configHandler
+
+        runningShows = new ConcurrentSkipListMap<>();
+        List<Location> runningShowsLocations = (List<Location>) configHandler
                 .getConfig(FireworksConfigType.RUNNINGSHOWS)
                 .getList("saved-shows", new ArrayList<>());
-
         runningShowsLocations.stream().forEach((loc) -> {
             startShowNoSave(loc);
         });
@@ -54,8 +58,8 @@ public final class ShowHandler {
      *
      * @return the List of Locations of currently running fireworks shows
      */
-    public List<Location> getRunningShowsLocations() {
-        return runningShowsLocations;
+    public Collection<Location> getRunningShowsLocations() {
+        return runningShows.values();
     }
 
     /**
@@ -65,13 +69,12 @@ public final class ShowHandler {
      */
     @SuppressWarnings("unchecked")
     public Map<String, ArrayList<Location>> getSavedShows() {
-        ConfigurationSection configSection = configHandler.getConfig(FireworksConfigType.SAVEDSHOWS)
-                .getConfigurationSection("saved-shows");
-        if (configSection == null) {
+        List<Map<?,?>> list = configHandler.getConfig(FireworksConfigType.SAVEDSHOWS)
+                .getMapList("saved-shows");
+        if (list.isEmpty()) {
             return new HashMap<>();
         } else {
-            Map<String, Object> savedShows = configSection.getValues(false);
-            return (Map<String, ArrayList<Location>>) (Object) savedShows;
+            return (Map<String, ArrayList<Location>>) list.get(0);
         }
     }
 
@@ -81,11 +84,11 @@ public final class ShowHandler {
      * @param loc the location of the fireworks show
      */
     public void startShowNoSave(Location loc) {
-        runningShows.add(
+        runningShows.put(
                 plugin.getServer().getScheduler()
                 .runTaskTimer(plugin, new ShowRunnable(loc), 0, delay)
-                .getTaskId());
-
+                .getTaskId(),
+                loc);
     }
 
     /**
@@ -97,9 +100,6 @@ public final class ShowHandler {
      */
     public void startShow(Location loc) throws UnsupportedEncodingException {
         startShowNoSave(loc);
-        if (runningShowsLocations != null) {
-            runningShowsLocations.add(loc);
-        }
         configHandler.saveRunningShows();
     }
 
@@ -110,12 +110,9 @@ public final class ShowHandler {
      * runningshows.yml
      */
     public void stopLastShow() throws UnsupportedEncodingException {
-        plugin.getServer().getScheduler().cancelTask(
-                runningShows.get(runningShows.size() - 1));
-        runningShows.remove(runningShows.size() - 1);
-        if (runningShowsLocations != null) {
-            runningShowsLocations.remove(runningShowsLocations.size() - 1);
-        }
+        Integer lastShowId = runningShows.lastKey();
+        plugin.getServer().getScheduler().cancelTask(lastShowId);
+        runningShows.remove(lastShowId);
         configHandler.saveRunningShows();
     }
 

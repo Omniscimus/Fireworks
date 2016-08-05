@@ -37,7 +37,7 @@ public class ConfigHandler {
      */
     protected void saveRunningShows() throws UnsupportedEncodingException {
         getConfig(FireworksConfigType.RUNNINGSHOWS)
-                .set("saved-shows", plugin.getShowHandler().getRunningShowsLocations());
+                .set("saved-shows", plugin.getShowHandler().getRunningShowsLocations().toArray());
         saveCustomConfig(FireworksConfigType.RUNNINGSHOWS);
     }
 
@@ -47,9 +47,10 @@ public class ConfigHandler {
      * @param showName the name of the show to save
      * @throws UnsupportedEncodingException if runningshows.yml as an
      * unsupported encoding
+     * @throws IOException If the file with saved shows couldn't be saved.
      */
     public void saveRunningShow(String showName)
-            throws UnsupportedEncodingException {
+            throws UnsupportedEncodingException, IOException {
         ArrayList<Location> show = new ArrayList<>();
         ShowHandler showHandler = plugin.getShowHandler();
         show.addAll(showHandler.getRunningShowsLocations());
@@ -57,8 +58,10 @@ public class ConfigHandler {
         Map<String, ArrayList<Location>> savedShows
                 = showHandler.getSavedShows();
         savedShows.put(showName, show);
-        getConfig(FireworksConfigType.SAVEDSHOWS)
-                .set("saved-shows", savedShows);
+        ArrayList<Map<String, ArrayList<Location>>> configFormat = new ArrayList<>();
+        configFormat.add(savedShows);
+        getConfig(FireworksConfigType.SAVEDSHOWS).set("saved-shows", configFormat);
+        FireworksConfigType.SAVEDSHOWS.save();
     }
 
     /**

@@ -1,6 +1,7 @@
 package net.omniscimus.fireworks;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -68,6 +69,15 @@ public enum FireworksConfigType {
      */
     void setFileConfiguration(FileConfiguration fileConfiguration) {
 	this.fileConfiguration = fileConfiguration;
+    }
+    
+    /**
+     * Saves the values in this config's FileConfiguration to its file.
+     * 
+     * @throws IOException If an I/O error occurs while writing.
+     */
+    void save() throws IOException {
+        fileConfiguration.save(getFile());
     }
 
 }
