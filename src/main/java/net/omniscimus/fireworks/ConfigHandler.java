@@ -58,9 +58,7 @@ public class ConfigHandler {
         Map<String, ArrayList<Location>> savedShows
                 = showHandler.getSavedShows();
         savedShows.put(showName, show);
-        ArrayList<Map<String, ArrayList<Location>>> configFormat = new ArrayList<>();
-        configFormat.add(savedShows);
-        getConfig(FireworksConfigType.SAVEDSHOWS).set("saved-shows", configFormat);
+        getConfig(FireworksConfigType.SAVEDSHOWS).set("saved-shows", savedShows);
         FireworksConfigType.SAVEDSHOWS.save();
     }
 

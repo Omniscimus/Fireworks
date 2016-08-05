@@ -69,12 +69,13 @@ public final class ShowHandler {
      */
     @SuppressWarnings("unchecked")
     public Map<String, ArrayList<Location>> getSavedShows() {
-        List<Map<?,?>> list = configHandler.getConfig(FireworksConfigType.SAVEDSHOWS)
-                .getMapList("saved-shows");
-        if (list.isEmpty()) {
+        Map<String, ArrayList<Location>> savedShows
+                = (Map<String, ArrayList<Location>>) configHandler.getConfig(FireworksConfigType.SAVEDSHOWS)
+                .get("saved-shows");
+        if (savedShows == null) {
             return new HashMap<>();
         } else {
-            return (Map<String, ArrayList<Location>>) list.get(0);
+            return savedShows;
         }
     }
 
