@@ -5,10 +5,10 @@
     <groupId>net.omniscimus.fireworks</groupId>
     <artifactId>Fireworks</artifactId>
     <packaging>jar</packaging>
-    <version>1.4.2</version>
+    <version>1.5.0</version>
     <name>Fireworks</name>
     <description>A Bukkit plugin that can start shows of fireworks when the player executes a command.</description>
-    <url>http://omniscimus.net/projects</url>
+    <url>http://omniscimus.net/</url>
   
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -57,7 +57,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <version>1.10.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
