@@ -35,9 +35,13 @@ public class LoadCommand extends FireworksCommand {
             if (savedShows.isEmpty()) {
                 responseBuilder.append("None.");
             } else {
-                showHandler.getSavedShows().keySet().stream().forEach((showName) -> {
-                    responseBuilder.append(ChatColor.RED).append(showName).append(ChatColor.RED).append(", ");
-                });
+                String[] savedShowsNames = savedShows.keySet().toArray(new String[0]);
+                for (int i = 0; i < savedShowsNames.length; i++) {
+                    responseBuilder.append(ChatColor.RED).append(savedShowsNames[i]);
+                    if (i != savedShowsNames.length - 1) {
+                        responseBuilder.append(ChatColor.GOLD).append(", ");
+                    }
+                }
             }
             sender.sendMessage(responseBuilder.toString());
         } else if (args.length == 1) {
