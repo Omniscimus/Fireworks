@@ -63,6 +63,26 @@ public class ConfigHandler {
     }
 
     /**
+     * Deletes a saved show from savedshows.yml.
+     *
+     * @param showName the name of the show to delete
+     * @return true if the show was removed; false if there was no show with
+     * that name
+     * @throws IOException If the file with saved shows couldn't be saved.
+     */
+    public boolean removeSavedShow(String showName) throws IOException {
+        ShowHandler showHandler = plugin.getShowHandler();
+        Map<String, ArrayList<Location>> savedShows
+                = showHandler.getSavedShows();
+        if (savedShows.remove(showName) == null) {
+            return false;
+        }
+        getConfig(FireworksConfigType.SAVEDSHOWS).set("saved-shows", savedShows);
+        FireworksConfigType.SAVEDSHOWS.save();
+        return true;
+    }
+
+    /**
      * Reloads one of the plugin's configs, which can then be accessed via
      * getCustomConfig(whichConfig);
      *

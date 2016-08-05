@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 import org.bukkit.Location;
-import org.bukkit.configuration.ConfigurationSection;
 
 /**
  * Manager of all Fireworks shows.

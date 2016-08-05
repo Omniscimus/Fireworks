@@ -95,7 +95,7 @@ public class FireworksCommandExecutor implements CommandExecutor {
 			break;
 		    case "remove":
 			runCommand(
-				new RemoveCommand(showHandler),
+				new RemoveCommand(configHandler),
 				sender,
 				args);
 			break;
