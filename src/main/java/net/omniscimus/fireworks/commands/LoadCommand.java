@@ -33,7 +33,7 @@ public class LoadCommand extends FireworksCommand {
             StringBuilder responseBuilder = new StringBuilder(ChatColor.GOLD + "Saved shows: \n");
             Map<String, ArrayList<Location>> savedShows = showHandler.getSavedShows();
             if (savedShows.isEmpty()) {
-                responseBuilder.append("None.");
+                responseBuilder.append(ChatColor.RED).append("None.");
             } else {
                 String[] savedShowsNames = savedShows.keySet().toArray(new String[0]);
                 for (int i = 0; i < savedShowsNames.length; i++) {

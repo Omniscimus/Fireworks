@@ -104,7 +104,7 @@ public class StartCommand extends FireworksCommand {
 	    throws SenderIsNotPlayerException, UnsupportedEncodingException {
 	Location atLocation = LocationFactory.createLocation(sender, x, y, z);
 	showHandler.startShow(atLocation);
-	sender.sendMessage(ChatColor.GOLD + "Started a fireworks show at coordinates " + x + ", " + y + ", " + z + "!");
+	sender.sendMessage(ChatColor.GOLD + "Started a fireworks show at coordinates " + ChatColor.RED + x + ", " + y + ", " + z + ChatColor.GOLD + "!");
     }
 
     /**
@@ -127,7 +127,7 @@ public class StartCommand extends FireworksCommand {
 	Location atLocation = LocationFactory.createLocation(world, x, y, z);
 	showHandler.startShow(atLocation);
 	if (sender != null) {
-	    sender.sendMessage(ChatColor.GOLD + "Started a fireworks show at coordinates " + x + ", " + y + ", " + z + " in world " + world + "!");
+	    sender.sendMessage(ChatColor.GOLD + "Started a fireworks show at coordinates " + ChatColor.RED + x + ", " + y + ", " + z + ChatColor.GOLD + " in world " + ChatColor.RED + world + ChatColor.GOLD + "!");
 	}
     }
 
