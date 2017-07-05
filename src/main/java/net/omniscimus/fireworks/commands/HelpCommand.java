@@ -3,7 +3,7 @@ package net.omniscimus.fireworks.commands;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import net.omniscimus.fireworks.commands.exceptions.WrongSyntaxException;
+import org.apache.commons.cli.CommandLine;
 
 /**
  * This command sends the sender info on how to use the plugin commands.
@@ -22,14 +22,10 @@ public class HelpCommand extends FireworksCommand {
 	    + ChatColor.GOLD + "/fw load <name>: " + ChatColor.RED + "loads the show that was saved as the preset " + ChatColor.ITALIC + "name.\n"
 	    + ChatColor.GOLD + "/fw remove <name>: " + ChatColor.RED + "deletes the show that was saved as the preset " + ChatColor.ITALIC + "name.\n"
 	    + ChatColor.GOLD + "/fw shoot <player>: " + ChatColor.RED + "shoots a piece fireworks at the specified player's location.";
-
+    
     @Override
-    public void run(CommandSender sender, String[] args) throws WrongSyntaxException {
-	if (args.length == 0) {
-	    sender.sendMessage(HELPCOMMAND);
-	} else {
-	    throw new WrongSyntaxException();
-	}
+    public void run(CommandSender sender, CommandLine commandLine) {
+        sender.sendMessage(HELPCOMMAND);
     }
 
 }

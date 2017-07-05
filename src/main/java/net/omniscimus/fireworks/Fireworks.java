@@ -36,7 +36,7 @@ public final class Fireworks extends JavaPlugin {
         configHandler = new ConfigHandler(this);
         showHandler = new ShowHandler(this, configHandler);
         commandExecutor = new FireworksCommandExecutor(
-                this, showHandler, configHandler);
+                showHandler, configHandler);
         getCommand("fw").setExecutor(commandExecutor);
         getCommand("fireworks").setExecutor(commandExecutor);
 

@@ -1,14 +1,17 @@
 package net.omniscimus.fireworks.commands;
 
-import java.io.UnsupportedEncodingException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.ChatColor;
 
-import net.omniscimus.fireworks.commands.exceptions.NonExistentWorldException;
-import net.omniscimus.fireworks.commands.exceptions.PlayerNotOnlineException;
-import net.omniscimus.fireworks.commands.exceptions.SenderIsNotPlayerException;
-import net.omniscimus.fireworks.commands.exceptions.WrongArgumentsNumberException;
-import net.omniscimus.fireworks.commands.exceptions.WrongSyntaxException;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
 
 /**
  * Parent class for all subcommands in this plugin, registered in
@@ -17,30 +20,66 @@ import net.omniscimus.fireworks.commands.exceptions.WrongSyntaxException;
  * @author Omniscimus
  */
 public abstract class FireworksCommand {
+    
+    private final List<String> usedOptions = new ArrayList();
+    
+    /**
+     * Indicates that the specified option in the command has been used.
+     * 
+     * @param opt the used option
+     */
+    protected void usedOption(String opt) {
+        usedOptions.add(opt);
+    }
+    
+    /**
+     * Sends the sender a message for each command option that was ignored by
+     * the plugin while executing the command.
+     * 
+     * @param sender the command sender
+     * @param commandLine the original CommandLine
+     */
+    protected void sendUnusedOptions(CommandSender sender, CommandLine commandLine) {
+        for (Option option : commandLine.getOptions()) {
+            String opt = option.getOpt();
+            if (!usedOptions.contains(opt))
+                sender.sendMessage(ChatColor.RED + "Ignored option: " + opt);
+        }
+    }
+    
+    /**
+     * Gets the options that may be supplied with this command.
+     * 
+     * @return the options
+     */
+    public Options getOptions() {
+        return new Options();
+    }
+    
+    /**
+     * Gets a String containing usage information about this command.
+     * 
+     * @return an automatically generated help string
+     */
+    public String getHelp() {
+        HelpFormatter formatter = new HelpFormatter();
+        StringWriter out = new StringWriter();
+        try (PrintWriter pw = new PrintWriter(out)) {
+            formatter.printHelp(pw, 80, "fw shoot", null, getOptions(),
+                    formatter.getLeftPadding(), formatter.getDescPadding(),
+                    null, true);
+            pw.flush();
+        }
+
+        return out.toString();
+    }
 
     /**
-     * Executes the subcommand.
+     * Executes the command.
      *
      * @param sender player or thing that executed the command
-     * @param args subcommand args (args without the subcommand itself, starting
-     * at 0)
-     * @throws PlayerNotOnlineException if a Player specified in args isn't
-     * online
-     * @throws SenderIsNotPlayerException if sender must be a Player, and it
-     * isn't
-     * @throws NonExistentWorldException if a World specified in args doesn't
-     * exist in Bukkit
-     * @throws WrongArgumentsNumberException if args.length is incorrect
-     * @throws WrongSyntaxException if args contained one or multiple errors
-     * @throws UnsupportedEncodingException if something couldn't be saved to a
-     * YAML file
+     * @param commandLine the CommandLine which contains the parsed command
      */
-    public abstract void run(CommandSender sender, String[] args)
-	    throws PlayerNotOnlineException,
-	    SenderIsNotPlayerException,
-	    NonExistentWorldException,
-	    WrongArgumentsNumberException,
-	    WrongSyntaxException,
-	    UnsupportedEncodingException;
+    public abstract void run(CommandSender sender, CommandLine commandLine);
 
 }

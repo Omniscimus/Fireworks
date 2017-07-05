@@ -1,5 +1,6 @@
 package net.omniscimus.fireworks.commands;
 
+import org.apache.commons.cli.CommandLine;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -16,7 +17,7 @@ public class PluginInfoCommand extends FireworksCommand {
 	    + ChatColor.RED + "Try /fw help for commands.";
 
     @Override
-    public void run(CommandSender sender, String[] args) {
+    public void run(CommandSender sender, CommandLine commandLine) {
 	sender.sendMessage(INFOCOMMAND);
     }
 
