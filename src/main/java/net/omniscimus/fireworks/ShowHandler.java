@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 import org.bukkit.Location;
+import org.bukkit.scheduler.BukkitTask;
 
 /**
  * Manager of all Fireworks shows.
@@ -27,7 +28,6 @@ public final class ShowHandler {
      */
     private final ConcurrentSkipListMap<Integer, Location> runningShows;
 
-    @SuppressWarnings("unchecked")
     public ShowHandler(Fireworks plugin, ConfigHandler configHandler) {
         this.plugin = plugin;
         this.configHandler = configHandler;
@@ -66,7 +66,6 @@ public final class ShowHandler {
      *
      * @return a Map with the names and the location of the saved shows
      */
-    @SuppressWarnings("unchecked")
     public Map<String, ArrayList<Location>> getSavedShows() {
         Map<String, ArrayList<Location>> savedShows
                 = (Map<String, ArrayList<Location>>) configHandler.getConfig(FireworksConfigType.SAVEDSHOWS)
@@ -101,6 +100,17 @@ public final class ShowHandler {
     public void startShow(Location loc) throws UnsupportedEncodingException {
         startShowNoSave(loc);
         configHandler.saveRunningShows();
+    }
+    
+    /**
+     * Runs a Runnable repeatedly.
+     * 
+     * @param runnable the Runnable to run
+     * @return the BukkitTask which contains the Runnable
+     */
+    public BukkitTask runTaskTimer(Runnable runnable) {
+        return plugin.getServer().getScheduler()
+                .runTaskTimer(plugin, runnable, 0, delay);
     }
 
     /**

@@ -65,7 +65,7 @@ public class FireworksCommandExecutor implements CommandExecutor {
                     command = new HelpCommand();
                     break;
                 case "shoot":
-                    command = new ShootCommand();
+                    command = new ShootCommand(showHandler);
                     break;
                 case "start":
                     command = new StartCommand(showHandler);
