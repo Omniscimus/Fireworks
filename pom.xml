@@ -1,6 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.omniscimus.fireworks</groupId>
     <artifactId>Fireworks</artifactId>
@@ -9,7 +9,7 @@
     <name>Fireworks</name>
     <description>A Bukkit plugin that can start shows of fireworks when the player executes a command.</description>
     <url>http://omniscimus.net/</url>
-  
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -56,7 +56,7 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                   <include>commons-cli:commons-cli</include>
+                                    <include>commons-cli:commons-cli</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -75,9 +75,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.12-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.13-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

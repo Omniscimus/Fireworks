@@ -20,3 +20,7 @@ local.properties
 .texlipse
 target/
 *.DS_Store
+
+nb-configuration.xml
+.idea/
+*.iml
